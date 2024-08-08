@@ -11,10 +11,6 @@ from langchain_chroma import Chroma
 from transformers import logging as tflog
 
 tflog.set_verbosity_error()
-parser = argparse.ArgumentParser(
-                    prog='SQL RAG',
-                    description='Generate SQL queries with natural language',
-                    epilog='no')
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -54,7 +50,13 @@ def store_vectors(documents: List[str]):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        prog='SQL RAG',
+        description='Generate SQL queries with natural language',
+        epilog='no')
+
     parser.add_argument('-q', '--query')
+    
     os_path = os.getcwd()
     data_path = 'data/spider'
     # create chunks of table schemas
