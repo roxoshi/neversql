@@ -1,6 +1,5 @@
 from typing import List
 import os
-import re
 import logging
 import glob
 import argparse
@@ -21,8 +20,10 @@ logging.basicConfig(
 
 warnings.filterwarnings('ignore')
 
+
 def clean_string(s):
     return s.lower().replace('\n','')
+
 
 def create_file_chunks(sql_file_path: str) -> List[str]:
     with open(sql_file_path, 'r') as f:
@@ -30,12 +31,15 @@ def create_file_chunks(sql_file_path: str) -> List[str]:
     processed_lines = list(map(clean_string, file_text.split(";\n")))
     return [s for s in processed_lines if s.startswith("create")]
 
+
 def get_all_paths(directory: str):
     return glob.glob(f'{directory}/database/*/schema.sql')
+
 
 def get_directory_chunks(directory: str):
     for path in get_all_paths(directory):
         yield create_file_chunks(path)
+
 
 def store_vectors(documents: List[str]):
     model_name = "dunzhang/stella_en_400M_v5"
@@ -56,7 +60,6 @@ if __name__ == '__main__':
         epilog='no')
 
     parser.add_argument('-q', '--query')
-    
     os_path = os.getcwd()
     data_path = 'data/spider'
     # create chunks of table schemas
