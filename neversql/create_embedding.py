@@ -22,7 +22,7 @@ warnings.filterwarnings('ignore')
 
 
 def clean_string(s):
-    return s.lower().replace('\n','')
+    return s.lower().replace('\n', '')
 
 
 def create_file_chunks(sql_file_path: str) -> List[str]:
@@ -53,24 +53,27 @@ def store_vectors(documents: List[str]):
     return db
 
 
+def build_vector_db(document_files: List[str]):
+    all_documents = []
+    for file in tqdm(document_files):
+        document: List[str] = create_file_chunks(file)
+        all_documents.extend(document)
+    # vectorize and store the chunks in chroma db
+    db = store_vectors(all_documents)
+    return db
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         prog='SQL RAG',
         description='Generate SQL queries with natural language',
         epilog='no')
-
+    file_path = ''
+    document_files = glob.glob(file_path)
+    db = build_vector_db(document_files)
     parser.add_argument('-q', '--query')
     os_path = os.getcwd()
     data_path = 'data/spider'
-    # create chunks of table schemas
-    file_path = f'{data_path}/database/*/schema.sql'
-    all_files = glob.glob(file_path)
-    all_documents = []
-    for f in tqdm(all_files):
-        document: List[str] = create_file_chunks(f)
-        all_documents.extend(document)
-    # vectorize and store the chunks in chroma db
-    db = store_vectors(all_documents)
     args = parser.parse_args()
     query = args.query
     if not query:
