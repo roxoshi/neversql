@@ -1,5 +1,2 @@
-langchain
-langchain_community
-langchain-chroma
-sentence_transformers
-xformers
+transformers
+chromadb
