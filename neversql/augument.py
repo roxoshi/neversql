@@ -18,7 +18,7 @@ def add_custom_prompts() -> str:
 
 def main():
     from retreiver import similarity_search
-    query = "Show the stadium name and the number of concerts in each stadium."
+    query = "List all singer names in concerts in year 2014"
     nearest_schemas = similarity_search(query, 3, SCHEMA_COLLECTION)
     retreived_schemas: List[str] = nearest_schemas['documents']
     schema_text = "\n".join(retreived_schemas[0])
@@ -33,5 +33,5 @@ def main():
     prompt = create_prompt(query, schema_text, retreived_queries)
     return prompt
 
-print(main())
+# print(main())
 

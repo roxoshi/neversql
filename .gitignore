@@ -171,3 +171,5 @@ db-dev/
 notes.md
 data/
 basic.log
+database/
+logs/
